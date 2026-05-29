@@ -40,6 +40,19 @@ brew update
 brew upgrade usbfix
 ```
 
+## Troubleshooting
+
+Si `brew upgrade` no actualiza el binario (sigue la version anterior), reinstala desde cero:
+
+```bash
+brew uninstall usbfix
+brew untap santgabo/tap
+brew tap santgabo/tap
+brew install santgabo/tap/usbfix
+```
+
+Para otra formula del tap, sustituye `usbfix` por su nombre.
+
 ## Contribuir 🤝
 
 Lee [CONTRIBUTING.md](CONTRIBUTING.md) para agregar o mantener nuevas formulas en este tap.
