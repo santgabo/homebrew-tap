@@ -10,10 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: Homebrew/actions/setup-homebrew@main
-      - name: Tap local formulae
+      - name: Link local tap
         run: |
-          brew untap santgabo/tap 2>/dev/null || true
-          brew tap santgabo/tap "${{ github.workspace }}"
+          mkdir -p "$(brew --repository)/Library/Taps/santgabo"
+          ln -sfn "${{ github.workspace }}" "$(brew --repository)/Library/Taps/santgabo/homebrew-tap"
       - name: Audit formulae
         run: |
           for formula in Formula/*.rb; do
@@ -26,3 +26,6 @@ jobs:
             brew install "santgabo/tap/$name"
             brew test "$name"
           done
+      - name: Remove local tap link
+        if: always()
+        run: rm -f "$(brew --repository)/Library/Taps/santgabo/homebrew-tap"
