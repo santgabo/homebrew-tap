@@ -11,7 +11,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: Homebrew/actions/setup-homebrew@main
       - name: Tap local formulae
-        run: brew tap santgabo/tap "${{ github.workspace }}"
+        run: |
+          brew untap santgabo/tap 2>/dev/null || true
+          brew tap santgabo/tap "${{ github.workspace }}"
       - name: Audit formulae
         run: |
           for formula in Formula/*.rb; do
