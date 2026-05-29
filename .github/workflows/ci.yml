@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-formulae:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Homebrew/actions/setup-homebrew@main
+      - name: Tap local formulae
+        run: brew tap santgabo/tap "${{ github.workspace }}"
+      - name: Audit formulae
+        run: |
+          for formula in Formula/*.rb; do
+            brew audit --strict "$(basename "$formula" .rb)"
+          done
+      - name: Install and test formulae
+        run: |
+          for formula in Formula/*.rb; do
+            name="$(basename "$formula" .rb)"
+            brew install "santgabo/tap/$name"
+            brew test "$name"
+          done
