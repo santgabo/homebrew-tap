@@ -1,20 +1,22 @@
 # Contributing
 
-Thank you for adding CLI tools to this tap. Each formula lives in `Formula/` and follows the same pattern as [usbfix](Formula/usbfix.rb): prebuilt macOS binaries from GitHub releases.
+Gracias por ayudar a mantener este Homebrew tap. Cada formula vive en `Formula/` y debe seguir el patron de [usbfix](Formula/usbfix.rb): binarios precompilados para macOS publicados como assets de GitHub Releases.
 
-## Adding a new formula
+## Agregar una formula nueva
 
-1. **Publish a GitHub release** for your CLI with tarballs per architecture (for example `darwin_arm64` and `darwin_amd64`).
+1. **Publica un release en GitHub** para tu CLI con un tarball por arquitectura, por ejemplo `darwin_arm64` y `darwin_amd64`.
 
-2. **Create** `Formula/<name>.rb` (lowercase filename; Ruby class in PascalCase, e.g. `mytool.rb` → `class Mytool`).
+2. **Crea** `Formula/<name>.rb`.
 
-3. **Get SHA256 checksums** for each release asset:
+   Usa el nombre del archivo en minusculas. La clase de Ruby debe ir en PascalCase, por ejemplo `mytool.rb` usa `class Mytool`.
+
+3. **Calcula los SHA256** de cada asset del release:
 
    ```bash
    curl -L "<release-tarball-url>" | shasum -a 256
    ```
 
-4. **Validate locally** before opening a pull request:
+4. **Valida localmente** antes de abrir un pull request:
 
    ```bash
    brew tap santgabo/tap "$(pwd)"
@@ -23,13 +25,13 @@ Thank you for adding CLI tools to this tap. Each formula lives in `Formula/` and
    brew test <name>
    ```
 
-   Homebrew 5.1+ no longer accepts path-based `brew audit` or `brew install --formula`; tap the repo first, then use the formula name.
+   Homebrew 5.1+ ya no acepta `brew audit` por ruta ni `brew install --formula`; primero agrega el tap local y luego usa el nombre de la formula.
 
-5. **Update** the formulae table in [README.md](README.md).
+5. **Actualiza** la tabla de formulas en [README.md](README.md).
 
-## Formula template
+## Plantilla de formula
 
-Copy and replace placeholders (`ToolName`, `version`, URLs, SHA256s, `binary_name`, `test_command`):
+Copia esta plantilla y reemplaza los placeholders (`ToolName`, `version`, URLs, SHA256s, `binary_name`, `test_command`):
 
 ```ruby
 class ToolName < Formula
@@ -60,15 +62,16 @@ class ToolName < Formula
 end
 ```
 
-Adjust `test` to match what your binary actually prints (for example `version` or `--help`).
+Ajusta `test` para que coincida con la salida real del binario, por ejemplo `version` o `--help`.
 
-## Conventions
+## Convenciones
 
-- **One file per CLI** in `Formula/`.
-- **Required metadata:** `desc`, `homepage`, `version`, and `license` must be present.
-- **Tests are required:** every formula needs a `test do` block; Homebrew enforces this for taps.
-- **Avoid name conflicts** with formulae in [homebrew/core](https://github.com/Homebrew/homebrew-core); pick a distinct name if your tool might collide.
+- **Un archivo por CLI** dentro de `Formula/`.
+- **Metadata obligatoria:** `desc`, `homepage`, `version` y `license`.
+- **Tests obligatorios:** cada formula necesita un bloque `test do`; Homebrew lo exige para taps.
+- **Sin conflictos de nombre:** revisa [homebrew/core](https://github.com/Homebrew/homebrew-core) y usa un nombre distinto si podria chocar con una formula existente.
+- **Instalacion agnostica:** documenta siempre la forma general `brew install santgabo/tap/<formula>` y luego, si aplica, ejemplos especificos.
 
 ## CI
 
-Pull requests and pushes to `main` run `brew audit --strict`, install each formula, and run `brew test` on macOS. Fix any failures before merging.
+Pull requests y pushes a `main` ejecutan `brew audit --strict`, instalan cada formula y corren `brew test` en macOS. Corrige cualquier falla antes de mezclar cambios.
