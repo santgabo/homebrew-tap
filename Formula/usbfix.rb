@@ -7,12 +7,12 @@ class Usbfix < Formula
   on_macos do
     on_arm do
       url "https://github.com/santgabo/USBfixertool-CLI/releases/download/v0.1.1/usbfix_0.1.1_darwin_arm64.tar.gz"
-      sha256 "ce450df1b1f72b7610eb2f49c1c75da16bece1b2734073895b89b1662284c01a"
+      sha256 "2bd445aa79ad2c74d0a590a189e6b2ec6c829a97fa29fcddd1546abbd0d2b101"
     end
 
     on_intel do
       url "https://github.com/santgabo/USBfixertool-CLI/releases/download/v0.1.1/usbfix_0.1.1_darwin_amd64.tar.gz"
-      sha256 "67e9025ce464d3f052fd4b670386b5da176436af3070120a1d87042dd9230dcb"
+      sha256 "3d27c8ed0ecb6cbd87350a87ec29d36e00ce5cbae3ba7c41903cd9412eb2bc86"
     end
   end
 
